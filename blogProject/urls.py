@@ -12,8 +12,9 @@ urlpatterns = [
     path('blogMain/createBlog/', blogapp.views.createBlog, name='createBlog'),
     path('ckeditor/', include('ckeditor_uploader.urls')),
     path('blogMain/detail/<int:blog_id>/', blogapp.views.detail, name='detail'),
-    path('blogMain/updateBlog/', blogapp.views.updateBlog, name='updateBlog'),
-    path('blogMain/deleteBlog/', blogapp.views.deleteBlog, name='deleteBlog'),
-] 
+    path('blogMain/updateBlog/<int:blog_id>', blogapp.views.updateBlog, name='updateBlog'),
+    path('blogMain/deleteBlog/<int:blog_id>', blogapp.views.deleteBlog, name='deleteBlog'),
+]
+
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -9,11 +9,9 @@ def index(request):
 
 def blogMain(request):
     blogs = Blog.objects.all()
- 
     return render(request, 'blogMain.html', {'blogs': blogs})
 
 def createBlog(request):
-
     if request.method == 'POST':
         form = CreateBlog(request.POST)
  
@@ -35,9 +33,7 @@ def detail(request, blog_id):
  
         if comment_form.is_valid():
             content = comment_form.cleaned_data['comment_textfield']
- 
             print(content)
- 
             return redirect('blogMain')
         else:
             return redirect('blogMain')
@@ -52,19 +48,22 @@ def detail(request, blog_id):
  
         return render(request, 'detail.html', context)
 
-def updateBlog(request):
+def updateBlog(request, blog_id):
+    post = Blog.objects.get(id=blog_id)
 
     if request.method == 'POST':
         form = CreateBlog(request.POST)
- 
         if form.is_valid():
+            form = CreateBlog(request.POST, instance=post)
             form.save()
-            return redirect('blogMain')
+            return redirect('detail', blog_id)
         else:
             return redirect('index')
     else:
-        form = CreateBlog()
+        form = CreateBlog(instance=post)
         return render(request, 'updateBlog.html', {'form': form})
 
-def deleteBlog(request):
+def deleteBlog(request, blog_id):
+    post = get_object_or_404(Blog, pk=blog_id)
+    post.delete()
     return redirect('blogMain')
